@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu — PizzaCraft 🍕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="loader"><div class="loader-pizza">🍕</div><p class="loader-text">Loading deliciousness...</p></div>
+  <div id="toast" class="toast"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">🍕</span>
+      <span class="logo-text">Pizza<span class="logo-accent">Craft</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+    <a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
+    <button class="hamburger" id="hamburger">☰</button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart 🛒</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <span class="section-tag">Our Craft</span>
+      <h1 class="page-hero-title">The Menu</h1>
+      <p>Every pizza tells a story. Find yours.</p>
+    </div>
+  </section>
+
+  <section class="menu-section">
+    <div class="container">
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-filter="all">All Pizzas</button>
+        <button class="filter-btn" data-filter="Veg">🟢 Veg</button>
+        <button class="filter-btn" data-filter="Non-Veg">🔴 Non-Veg</button>
+      </div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom"><p>© 2025 PizzaCraft. All Rights Reserved. Made with ❤️ & 🔥</p></div>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+  <script>
+    function renderMenu(list) {
+      document.getElementById("menuGrid").innerHTML = list.length
+        ? list.map(p => pizzaCardHTML(p)).join("")
+        : '<p style="color:#aaa;text-align:center;grid-column:1/-1;padding:3rem">No pizzas in this category.</p>';
+    }
+
+    // Init
+    renderMenu(MENU_DATA);
+
+    // Filter buttons
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        renderMenu(f === "all" ? MENU_DATA : MENU_DATA.filter(p => p.category === f));
+      });
+    });
+  </script>
+</body>
+</html>
